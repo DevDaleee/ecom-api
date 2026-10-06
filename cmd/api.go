@@ -1,6 +1,7 @@
 package main
 
 import (
+	"ecom/internal/products"
 	"log"
 	"net/http"
 	"time"
@@ -23,6 +24,10 @@ func (app *application) mount() http.Handler {
 	r.Get("/health", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("all good"))
 	})
+
+	productsService := products.NewService()
+	productHandler := products.NewHandler(productsService)
+	r.Get("/products", productHandler.ListProducts)
 
 	// http.ListenAndServe(":3333", r)
 	return r
