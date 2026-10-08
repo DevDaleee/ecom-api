@@ -7,10 +7,14 @@ import (
 	"os"
 
 	"github.com/jackc/pgx/v5"
+	"github.com/joho/godotenv"
 )
 
 func main() {
 	ctx := context.Background()
+
+	// Load .env into the process environment (no-op if the file is missing)
+	_ = godotenv.Load()
 
 	cfg := config{
 		addr: ":8080",
@@ -34,6 +38,7 @@ func main() {
 
 	api := application{
 		config: cfg,
+		db: conn,
 	}
 
 
